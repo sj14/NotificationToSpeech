@@ -1,0 +1,79 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <!-- <PreferenceCategory android:title="string/inline_preferences">
+    -->
+
+    <!--
+    <CheckBoxPreference
+        android:key="switch_authorized"
+        android:title="Autorized"
+        android:summary="If not checked: Authorize with upper right Button"
+        android:enabled="false" />
+    -->
+    <Preference
+        android:id="@+id/action_authorize"
+        android:summary="IMPORTANT: Please authorize with the upper right button. Otherwise the app won't work."
+    />
+
+    <Preference
+        android:id="@+id/action_authorize"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/action_authorize" />
+
+
+    <SwitchPreference
+            android:key="switch_service"
+            android:title="@string/checkbox_service"
+            android:summary="@string/summary_checkbox_service"
+            android:id="@+id/switch_service" />
+
+    <SwitchPreference
+        android:key="switch_screenOff"
+            android:title="@string/switch_screenOff"
+            android:summary="@string/summary_screenOff" />
+
+    <MultiSelectListPreference
+        android:key="content"
+        android:title="What To Speak"
+        android:entries="@array/content"
+        android:entryValues="@array/content_values"
+        android:summary="Select name, ticker, title and/or text." />
+
+    <Preference
+        android:key="wait"
+        android:title="Wait Time"
+        android:summary="Time delay before speech." />
+
+    <Preference
+        android:key="max_repeat"
+        android:title="Don't Repeat Time"
+        android:summary="The same app won't be repeated within this time." />
+
+    <MultiSelectListPreference
+        android:key="list_ignore"
+        android:title="Ignore Apps"
+        android:entries="@array/history_array"
+        android:entryValues="@array/history_array"
+        android:summary="Show already spoken apps and ignore them." />
+
+    <Preference
+        android:key="btnpref_test"
+        android:title="Test"
+        android:summary="Send a test-notification." />
+
+    <!--
+    <ListPreference
+        android:key="list_volume"
+        android:title="Volume-Level"
+        android:summary="The Volume-Level of the spoken notification"
+        android:entries="@array/volume_array"
+        android:entryValues="@array/volume_array_values" />
+    -->
+    
+    <!-- </PreferenceCategory>
+    -->
+
+</PreferenceScreen>
