@@ -14,14 +14,11 @@
     -->
     <Preference
         android:id="@+id/action_authorize"
-        android:summary="IMPORTANT: Please authorize with the upper right button. Otherwise the app won't work."
-    />
-
-    <Preference
-        android:id="@+id/action_authorize"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/action_authorize" />
+        android:title="@string/action_authorize">
+       <intent android:action="android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS" />
+    </Preference>
 
 
     <SwitchPreference
