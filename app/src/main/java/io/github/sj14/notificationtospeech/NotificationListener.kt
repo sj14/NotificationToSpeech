@@ -1,9 +1,16 @@
 package io.github.sj14.notificationtospeech
 
 import android.annotation.SuppressLint
+import android.app.Service
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Parcel
 import android.os.Parcelable
 import android.service.notification.NotificationListenerService
+import android.service.notification.StatusBarNotification
+import android.speech.tts.TextToSpeech
+import android.util.Log
+import android.widget.Toast
 
 @SuppressLint("OverrideAbstract")
 /**
@@ -11,6 +18,11 @@ import android.service.notification.NotificationListenerService
  */
 class NotificationListener() : NotificationListenerService(), Parcelable {
     constructor(parcel: Parcel) : this() {
+    }
+
+    override fun onNotificationPosted(sbn : StatusBarNotification) {
+        // TODO: as const
+        val intent = Intent("io.github.sj14.notificationtospeech.notification")
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
