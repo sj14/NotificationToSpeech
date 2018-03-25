@@ -97,7 +97,7 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
             // guidelines.
             //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
 
-
+            // as described by https://www.youtube.com/watch?v=Fo7WksYMlCU
             val btnTestNotification = findPreference("btn_test_notification") as Preference
             lateinit var myNotificationManager : NotificationManager
             lateinit var myNotificationChannel : NotificationChannel
@@ -105,9 +105,7 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
             val channelId = "io.github.sj14.notificationtospeech"
             val description = "Test Notification"
 
-            Log.d("DBG", "before notmgr")
             myNotificationManager =  getActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            Log.d("DBG", "after notmgr")
 
             btnTestNotification.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 Log.d("DBG", "HERE: onPreferenceClick")
