@@ -92,15 +92,15 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
 
             // as described by https://www.youtube.com/watch?v=Fo7WksYMlCU
-            val btnTestNotification = findPreference("btn_test_notification") as Preference
             lateinit var myNotificationManager: NotificationManager
             lateinit var myNotificationChannel: NotificationChannel
             lateinit var builder: Notification.Builder
             val channelId = "io.github.sj14.notificationtospeech"
             val description = "Test Notification"
-
             myNotificationManager = getActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+
+            val btnTestNotification = findPreference("btn_test_notification") as Preference
             btnTestNotification.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 Log.d("DBG", "HERE: onPreferenceClick")
 
@@ -120,7 +120,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
 
             val switchService = findPreference("switch_service") as SwitchPreference
-
             switchService.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 val enabled = newValue as Boolean
                 val serviceIntent = Intent(context, Service::class.java)

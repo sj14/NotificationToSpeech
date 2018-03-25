@@ -58,8 +58,8 @@
 
     <Preference
         android:key="btn_test_notification"
-        android:title="Test"
-        android:summary="Send a test-notification." />
+        android:title="Test Notification"
+        android:summary="Send a test notification." />
 
     <!--
     <ListPreference

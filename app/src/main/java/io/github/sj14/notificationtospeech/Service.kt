@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
 import android.os.Parcelable
+import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.support.annotation.RequiresApi
 import android.util.Log
@@ -44,8 +45,9 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (mReceiver == null) mReceiver = MyReceiver()
-        registerReceiver(mReceiver, IntentFilter("io.github.sj14.notificationtospeech.notification"))
-        Toast.makeText(this, "Service started", Toast.LENGTH_LONG).show()
+        registerReceiver(mReceiver, IntentFilter("NOTIFICATION"))
+
+        Toast.makeText(this, "Started NotificationToSpeech", Toast.LENGTH_LONG).show()
         return Service.START_STICKY
     }
 
@@ -58,6 +60,8 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
             tts!!.stop()
             tts!!.shutdown()
         }
+
+        Toast.makeText(this, "Stopped NotificationToSpeech", Toast.LENGTH_LONG).show()
         super.onDestroy()
     }
 
@@ -86,6 +90,8 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
     inner class MyReceiver : BroadcastReceiver() {
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun onReceive(context: Context, intent: Intent?) {
+            Log.d("NotificationToSpeech", "Broadcast received")
+
             if (intent == null) {
                 return
             }

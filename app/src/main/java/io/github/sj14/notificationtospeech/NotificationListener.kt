@@ -24,8 +24,8 @@ class NotificationListener() : NotificationListenerService(), Parcelable {
     }
 
     override fun onNotificationPosted(sbn : StatusBarNotification) {
-        // TODO: as const
-        val intent = Intent("io.github.sj14.notificationtospeech.notification")
+        Log.d("NotificationToSpeech", "NotificationPosted")
+        postSpeech(sbn)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -44,5 +44,11 @@ class NotificationListener() : NotificationListenerService(), Parcelable {
         override fun newArray(size: Int): Array<NotificationListener?> {
             return arrayOfNulls(size)
         }
+    }
+
+    fun postSpeech(sbn:StatusBarNotification){
+        Log.d("NotificationToSpeech", "postSpeech")
+        val intent = Intent("NOTIFICATION")
+        sendBroadcast(intent)
     }
 }
