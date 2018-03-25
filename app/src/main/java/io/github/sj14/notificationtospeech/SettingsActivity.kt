@@ -14,12 +14,7 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.ListPreference
-import android.preference.Preference
-import android.preference.PreferenceActivity
-import android.preference.PreferenceFragment
-import android.preference.PreferenceManager
-import android.preference.RingtonePreference
+import android.preference.*
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationBuilderWithBuilderAccessor
 import android.support.v4.app.NotificationCompat
@@ -43,7 +38,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
      * Set up the [android.app.ActionBar], if the API is available.
      */
     private fun setupActionBar() {
-supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     /**
@@ -74,7 +69,6 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
 
-
     /**
      * This fragment shows notification preferences only. It is used when the
      * activity is showing a two-pane settings UI.
@@ -99,13 +93,13 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
             // as described by https://www.youtube.com/watch?v=Fo7WksYMlCU
             val btnTestNotification = findPreference("btn_test_notification") as Preference
-            lateinit var myNotificationManager : NotificationManager
-            lateinit var myNotificationChannel : NotificationChannel
-            lateinit var builder : Notification.Builder
+            lateinit var myNotificationManager: NotificationManager
+            lateinit var myNotificationChannel: NotificationChannel
+            lateinit var builder: Notification.Builder
             val channelId = "io.github.sj14.notificationtospeech"
             val description = "Test Notification"
 
-            myNotificationManager =  getActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            myNotificationManager = getActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             btnTestNotification.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 Log.d("DBG", "HERE: onPreferenceClick")
@@ -123,7 +117,25 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 myNotificationManager.notify(1234, builder.build())
                 true
             }
+
+
+            val switchService = findPreference("switch_service") as SwitchPreference
+
+            switchService.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+                val enabled = newValue as Boolean
+                val serviceIntent = Intent(context, Service::class.java)
+
+                if (enabled) {
+                    Log.d("DBG", "enable service")
+                    context.startService(serviceIntent)
+                } else {
+                    Log.d("DBG", "disable service")
+                    context.stopService(serviceIntent)
+                }
+                true
+            }
         }
+
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             val id = item.itemId
@@ -272,7 +284,6 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
             }
             true
         }
-
 
 
         /**

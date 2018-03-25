@@ -1,20 +1,14 @@
 package io.github.sj14.notificationtospeech
 
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.app.Notification
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
-import android.media.AudioManager
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
 import android.os.Parcelable
-import android.preference.PreferenceManager
 import android.speech.tts.TextToSpeech
 import android.support.annotation.RequiresApi
 import android.util.Log
@@ -56,6 +50,9 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
     }
 
     override fun onDestroy() {
+        // Stop Service
+        unregisterReceiver(mReceiver)
+
         // shutdown tts
         if (tts != null) {
             tts!!.stop()
