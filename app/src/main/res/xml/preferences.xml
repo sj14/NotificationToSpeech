@@ -57,7 +57,7 @@
         android:summary="Show already spoken apps and ignore them." />
 
     <Preference
-        android:key="btnpref_test"
+        android:key="btn_test_notification"
         android:title="Test"
         android:summary="Send a test-notification." />
 

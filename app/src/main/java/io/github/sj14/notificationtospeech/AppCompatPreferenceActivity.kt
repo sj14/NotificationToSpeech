@@ -87,4 +87,5 @@ abstract class AppCompatPreferenceActivity : PreferenceActivity() {
     private val delegate: AppCompatDelegate by lazy {
         AppCompatDelegate.create(this, null)
     }
+
 }

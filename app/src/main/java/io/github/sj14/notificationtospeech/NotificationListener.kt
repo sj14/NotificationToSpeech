@@ -4,14 +4,17 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.speech.tts.TextToSpeech
+import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
 
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 @SuppressLint("OverrideAbstract")
 /**
  * Created by simon on 12.03.18.

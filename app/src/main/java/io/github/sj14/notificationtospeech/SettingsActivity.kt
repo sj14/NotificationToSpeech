@@ -1,9 +1,15 @@
 package io.github.sj14.notificationtospeech
 
 import android.annotation.TargetApi
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
@@ -14,8 +20,13 @@ import android.preference.PreferenceActivity
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.preference.RingtonePreference
+import android.support.annotation.RequiresApi
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor
+import android.support.v4.app.NotificationCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -28,12 +39,6 @@ import android.view.MenuItem
  * for more information on developing a Settings UI.
  */
 class SettingsActivity : AppCompatPreferenceActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupActionBar()
-    }
-
     /**
      * Set up the [android.app.ActionBar], if the API is available.
      */
@@ -68,12 +73,19 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 || MyPreferenceFragment::class.java.name == fragmentName
     }
 
+
+
     /**
      * This fragment shows notification preferences only. It is used when the
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     class MyPreferenceFragment : PreferenceFragment() {
+
+
+        private var notificationManager: NotificationManager? = null
+
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(R.xml.preferences)
@@ -84,6 +96,35 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
             // updated to reflect the new value, per the Android Design
             // guidelines.
             //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
+
+
+            val btnTestNotification = findPreference("btn_test_notification") as Preference
+            lateinit var myNotificationManager : NotificationManager
+            lateinit var myNotificationChannel : NotificationChannel
+            lateinit var builder : Notification.Builder
+            val channelId = "io.github.sj14.notificationtospeech"
+            val description = "Test Notification"
+
+            Log.d("DBG", "before notmgr")
+            myNotificationManager =  getActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            Log.d("DBG", "after notmgr")
+
+            btnTestNotification.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                Log.d("DBG", "HERE: onPreferenceClick")
+
+                //val intent = Intent(this, SettingsActivity::class.java)
+
+                myNotificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+                myNotificationManager.createNotificationChannel(myNotificationChannel)
+                builder = Notification.Builder(context, channelId)
+                        .setContentTitle("Test Title")
+                        .setContentText("Test Text")
+                        .setSmallIcon(R.drawable.ic_launcher_round)
+                        .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher))
+
+                myNotificationManager.notify(1234, builder.build())
+                true
+            }
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -233,6 +274,8 @@ supportActionBar?.setDisplayHomeAsUpEnabled(true)
             }
             true
         }
+
+
 
         /**
          * Helper method to determine if the device has an extra-large screen. For
