@@ -1,15 +1,16 @@
 package io.github.sj14.notificationtospeech
 
+import android.app.Notification
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
 import android.os.Parcelable
-import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.support.annotation.RequiresApi
 import android.util.Log
@@ -20,9 +21,9 @@ import java.util.*
  * Created by simon on 13.03.18.
  */
 
-class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
+class TTSService() : Service(), TextToSpeech.OnInitListener, Parcelable {
 
-    protected var mReceiver: io.github.sj14.notificationtospeech.Service.MyReceiver? = MyReceiver()
+    protected var mReceiver: io.github.sj14.notificationtospeech.TTSService.MyReceiver? = MyReceiver()
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -52,7 +53,7 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
     }
 
     override fun onDestroy() {
-        // Stop Service
+        // Stop TTSService
         unregisterReceiver(mReceiver)
 
         // shutdown tts
@@ -79,7 +80,7 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
 
     companion object CREATOR : Parcelable.Creator<Service> {
         override fun createFromParcel(parcel: Parcel): Service {
-            return Service(parcel)
+            return TTSService(parcel)
         }
 
         override fun newArray(size: Int): Array<Service?> {
@@ -95,7 +96,17 @@ class Service() : Service(), TextToSpeech.OnInitListener, Parcelable {
             if (intent == null) {
                 return
             }
-            tts!!.speak("Hallo", TextToSpeech.QUEUE_ADD, null, "")
+
+            val extras = intent.extras
+
+            val notificationTitle = extras!!.getString(Notification.EXTRA_TITLE)
+            val notificationText = extras.getCharSequence(Notification.EXTRA_TEXT)
+            val notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT)
+            val appName = extras.getString("AppName")
+            val notificationTicker = extras.getCharSequence("Ticker")
+
+            tts!!.speak("Hello", TextToSpeech.QUEUE_ADD, null, "")
+            tts!!.speak(appName, TextToSpeech.QUEUE_ADD, null, "")
         }
     }
 }

@@ -4,24 +4,19 @@ import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.*
 import android.support.annotation.RequiresApi
-import android.support.v4.app.NotificationBuilderWithBuilderAccessor
-import android.support.v4.app.NotificationCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -122,7 +117,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             val switchService = findPreference("switch_service") as SwitchPreference
             switchService.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 val enabled = newValue as Boolean
-                val serviceIntent = Intent(context, Service::class.java)
+                val serviceIntent = Intent(context, TTSService::class.java)
 
                 if (enabled) {
                     Log.d("DBG", "enable service")
